@@ -5,10 +5,15 @@ import Container from '@mui/material/Container';
 import ComboBox from '../components/ComboBox';
 import { Food } from '../services/food/Food.interface';
 import { FoodService } from '../services/food/Food.service';
+import { ConsumeService } from '../services/consume/Consume.service';
+import AuthContext from '../context/AuthContext';
+import BasicTable from '../components/BasicTable';
 
 export default function MainFoodTable() {
+  let { user }: any = React.useContext(AuthContext);
   const [value, setValue] = React.useState<Food | null>(null);
   const [foodList, setFoodList] = React.useState<Food[]>([]);
+  const [myFoodList, setMyFoodList] = React.useState<Food[]>([]);
 
   const getFood = async () => {
     try {
@@ -20,8 +25,20 @@ export default function MainFoodTable() {
     }
   }
 
+  const getConsume = async () => {
+    try {
+      const consumeService = new ConsumeService()
+      const output = await consumeService.getAllMyProducts(user.id)
+      console.log(output)
+      setMyFoodList(output)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   React.useEffect(() => {
-    getFood()
+    getFood();
+    getConsume();
   }, [])
 
   return (
@@ -47,6 +64,7 @@ export default function MainFoodTable() {
         >
           <ComboBox value={value} setValue={setValue} foodList={foodList} />
         </Box>
+        <BasicTable foodList={myFoodList} />
       </Container>
     </Box >
   )

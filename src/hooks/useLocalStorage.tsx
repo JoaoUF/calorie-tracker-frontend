@@ -22,10 +22,5 @@ export const useLocalStorage = () => {
     window.localStorage.removeItem('authTokens')
   }
 
-  useEffect(() => {
-    console.log('IMPRIMIENDO TOKENS')
-    console.log(authTokens)
-  }, [authTokens, setAuthTokens])
-
   return { authTokens, setValue, deleteValue }
 }
