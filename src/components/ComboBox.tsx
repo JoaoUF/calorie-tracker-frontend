@@ -11,15 +11,20 @@ interface ComboBoxProps {
 export default function ComboBox(props: ComboBoxProps) {
   const { value, setValue, foodList } = props
 
+  const defaultProps = {
+    options: foodList,
+    getOptionLabel: (option: Food) => option.name
+  }
+
   return (
     <Autocomplete
+      {...defaultProps}
       id="combo-box-demo"
       disablePortal
       value={value}
       onChange={(event: any, newValue: Food | null) => {
         setValue(newValue)
       }}
-      options={foodList}
       sx={{ width: 300 }}
       renderInput={(params) => <TextField {...params} label="Food" />}
     />

@@ -1,5 +1,8 @@
+import * as React from 'react';
 import axios from 'axios'
 import { useLocalStorage } from '../hooks/useLocalStorage'
+import AuthContext from '../context/AuthContext';
+
 
 const AxiosConfig = axios.create({
   baseURL: process.env.REACT_APP_API_PATH,
@@ -11,8 +14,9 @@ const AxiosConfig = axios.create({
 })
 
 AxiosConfig.interceptors.request.use(function (config) {
-  const { authTokens } = useLocalStorage()
-  config.headers.Authorization = authTokens ? `Bearer ${authTokens}` : '';
+  const authTokens: any = window.localStorage.getItem('authTokens')
+  const newAuthTokens = JSON.parse(authTokens)
+  config.headers.Authorization = newAuthTokens ? `Bearer ${newAuthTokens.access}` : '';
   return config;
 });
 

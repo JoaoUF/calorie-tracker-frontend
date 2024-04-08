@@ -5,27 +5,27 @@ import { Food } from './Food.interface'
 
 export class FoodService {
   getAllProducts(): Promise<Food[]> {
-    return AxiosConfig.get(`product/`)
+    return AxiosConfig.get(`food/`)
       .then((response: AxiosResponse<Food[]>) => response.data)
   }
 
   createProduct(data: any): Promise<Food> {
-    return AxiosConfig.post('product/', data)
+    return AxiosConfig.post('food/', data)
       .then((response: AxiosResponse<Food>) => response.data)
   }
 
   getOneProduct(pk: UUID): Promise<Food> {
-    return AxiosConfig.get(`product/${pk}/`)
+    return AxiosConfig.get(`food/${pk}/`)
       .then((response: AxiosResponse<Food>) => response.data)
   }
 
   updateProduct(pk: UUID, data: any): Promise<Food> {
-    return AxiosConfig.put(`product/${pk}/`, data)
+    return AxiosConfig.put(`food/${pk}/`, data)
       .then((response: AxiosResponse<Food>) => response.data)
   }
 
   deleteProduct(pk: UUID) {
-    return AxiosConfig.delete(`product/${pk}/`)
+    return AxiosConfig.delete(`food/${pk}/`)
       .then((response: AxiosResponse<Food>) => response.status)
   }
 }

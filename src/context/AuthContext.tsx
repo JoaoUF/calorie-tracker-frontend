@@ -15,7 +15,7 @@ const AuthContext = createContext<ContexData | null>(null) as React.Context<Cont
 export default AuthContext;
 
 export const AuthProvider = () => {
-  let { authTokens, setValue } = useLocalStorage()
+  let { authTokens, setValue, deleteValue } = useLocalStorage()
   let [user, setUser] = useState(() => authTokens ? jwtDecode(authTokens.access) : null)
   let [loading, setLoading] = useState(false)
 
@@ -28,13 +28,13 @@ export const AuthProvider = () => {
       setValue(tokenoutput)
       setUser(jwtDecode(tokenoutput.access))
       history('/main')
-    } catch {
-      alert('Something went wrong!')
+    } catch (error) {
+      console.log(error)
     }
   }
 
   let logoutUser = () => {
-    setValue(null)
+    deleteValue()
     setUser(null)
     history('/')
   }
@@ -62,7 +62,7 @@ export const AuthProvider = () => {
   }
 
   useEffect(() => {
-
+    console.log('reiniciando')
     if (loading) {
       updateToken()
     }

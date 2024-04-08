@@ -4,10 +4,25 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import ComboBox from '../components/ComboBox';
 import { Food } from '../services/food/Food.interface';
+import { FoodService } from '../services/food/Food.service';
 
 export default function MainFoodTable() {
   const [value, setValue] = React.useState<Food | null>(null);
   const [foodList, setFoodList] = React.useState<Food[]>([]);
+
+  const getFood = async () => {
+    try {
+      const foodService = new FoodService()
+      const output = await foodService.getAllProducts()
+      setFoodList(output)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  React.useEffect(() => {
+    getFood()
+  }, [])
 
   return (
     <Box

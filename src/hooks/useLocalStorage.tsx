@@ -12,15 +12,20 @@ export const useLocalStorage = () => {
     }
   })
 
-  const setValue = (token: Token | null) => {
+  const setValue = (token: Token) => {
     setAuthTokens(token)
-    window.localStorage.setItem('authTokens', JSON.stringify(authTokens))
+    window.localStorage.setItem('authTokens', JSON.stringify(token))
+  }
+
+  const deleteValue = () => {
+    setAuthTokens(null)
+    window.localStorage.removeItem('authTokens')
   }
 
   useEffect(() => {
-    console.log('este es el card')
+    console.log('IMPRIMIENDO TOKENS')
     console.log(authTokens)
-  }, [authTokens])
+  }, [authTokens, setAuthTokens])
 
-  return { authTokens, setValue }
+  return { authTokens, setValue, deleteValue }
 }
